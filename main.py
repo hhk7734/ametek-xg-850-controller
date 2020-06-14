@@ -5,6 +5,7 @@ from PySide2.QtWidgets import QMainWindow, QApplication, QFileDialog
 
 from ui.ui_mainwindow import Ui_MainWindow
 from core.command import SCPI
+from core.xl import Xl
 
 
 class Main_window(QMainWindow, Ui_MainWindow):
@@ -20,6 +21,9 @@ class Main_window(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
 
         self.controller = SCPI()
+        self.xl = Xl()
+
+        self.is_operating = False
 
         if path.exists("pkl/inputFilePath.pkl"):
             with open("pkl/inputFilePath.pkl", "rb") as f:
@@ -38,6 +42,8 @@ class Main_window(QMainWindow, Ui_MainWindow):
         self.updatePortButton.clicked.connect(self.update_ports)
         self.findInputFileButton.clicked.connect(self.find_input_file)
         self.findOutputDirButton.clicked.connect(self.find_output_dir)
+
+        self.startButton.clicked.connect(self.start)
 
     def update_ports(self):
         self.comboBox.clear()
@@ -64,6 +70,32 @@ class Main_window(QMainWindow, Ui_MainWindow):
             self.outputDir.setText(self.outputDirPath)
             with open("pkl/outputDirPath.pkl", "wb") as f:
                 pickle.dump(self.outputDirPath, f)
+
+    def start(self):
+        if not self.is_operating:
+            self.is_operating = True
+            self.startButton.setFlat(True)
+            repeat = self.repeatSpinBox.value()
+            interval = self.intervalSpinBox.value()
+            setup_data = self.xl.load_setup_data(self.inputFilePath)
+            operation_range = self.operationRange.text().strip()
+            operation_range = operation_range.split(",")
+            operation_queue = []
+            for operation in operation_range:
+                if operation.find("-") != -1:
+                    index = operation.find("-")
+                    start_num = int(operation[:index])
+                    end_num = int(operation[index + 1 :])
+                    for i in range(start_num, end_num + 1):
+                        operation_queue.append(i)
+                else:
+                    operation_queue.append(int(operation))
+
+    def stop(self):
+        pass
+
+    def save(self):
+        pass
 
 
 if __name__ == "__main__":
