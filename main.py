@@ -7,6 +7,9 @@ from ui.ui_mainwindow import Ui_MainWindow
 from core.command import SCPI
 from core.xl import Xl
 
+INPUT_FILE_PATH = path.join(path.dirname(__file__), "pkl/inputFilePath.pkl")
+OUTPUT_DIR_PATH = path.join(path.dirname(__file__), "pkl/outputDirPath.pkl")
+
 
 class Main_window(QMainWindow, Ui_MainWindow):
     """
@@ -25,15 +28,15 @@ class Main_window(QMainWindow, Ui_MainWindow):
 
         self.is_operating = False
 
-        if path.exists("pkl/inputFilePath.pkl"):
-            with open("pkl/inputFilePath.pkl", "rb") as f:
+        if path.exists(INPUT_FILE_PATH):
+            with open(INPUT_FILE_PATH, "rb") as f:
                 self.inputFilePath = pickle.load(f)
                 self.inputFile.setText(self.inputFilePath)
         else:
             self.inputFilePath = None
 
-        if path.exists("pkl/outputDirPath.pkl"):
-            with open("pkl/outputDirPath.pkl", "rb") as f:
+        if path.exists(OUTPUT_DIR_PATH):
+            with open(OUTPUT_DIR_PATH, "rb") as f:
                 self.outputDirPath = pickle.load(f)
                 self.outputDir.setText(self.outputDirPath)
         else:
@@ -58,7 +61,7 @@ class Main_window(QMainWindow, Ui_MainWindow):
         if new_input_file[0] != "":
             self.inputFilePath = new_input_file[0]
             self.inputFile.setText(self.inputFilePath)
-            with open("pkl/inputFilePath.pkl", "wb") as f:
+            with open(INPUT_FILE_PATH, "wb") as f:
                 pickle.dump(self.inputFilePath, f)
 
     def find_output_dir(self):
@@ -68,7 +71,7 @@ class Main_window(QMainWindow, Ui_MainWindow):
         if new_output_dir:
             self.outputDirPath = new_output_dir
             self.outputDir.setText(self.outputDirPath)
-            with open("pkl/outputDirPath.pkl", "wb") as f:
+            with open(OUTPUT_DIR_PATH, "wb") as f:
                 pickle.dump(self.outputDirPath, f)
 
     def start(self):
