@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+   <class>MainWindow</class>
+   <widget class="QMainWindow" name="MainWindow">
+      <property name="geometry">
+         <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>800</width>
+            <height>600</height>
+         </rect>
+      </property>
+      <property name="windowTitle">
+         <string>XG-850 controller</string>
+      </property>
+      <widget class="QWidget" name="centralwidget">
+         <layout class="QGridLayout" name="gridLayout">
+            <item row="2" column="0">
+               <widget class="QLabel" name="label">
+                  <property name="text">
+                     <string>포트</string>
+                  </property>
+               </widget>
+            </item>
+            <item row="2" column="1" colspan="3">
+               <widget class="QComboBox" name="comboBox" />
+            </item>
+            <item row="2" column="4" colspan="2">
+               <widget class="QPushButton" name="updatePortButton">
+                  <property name="text">
+                     <string>Update</string>
+                  </property>
+               </widget>
+            </item>
+            <item row="3" column="0">
+               <widget class="QLabel" name="label_2">
+                  <property name="text">
+                     <string>설정 파일</string>
+                  </property>
+               </widget>
+            </item>
+            <item row="3" column="1" colspan="3">
+               <widget class="QLineEdit" name="inputFile">
+                  <property name="dragEnabled">
+                     <bool>true</bool>
+                  </property>
+                  <property name="readOnly">
+                     <bool>true</bool>
+                  </property>
+               </widget>
+            </item>
+            <item row="3" column="4" colspan="2">
+               <widget class="QPushButton" name="findInputFileButton">
+                  <property name="text">
+                     <string>Find</string>
+                  </property>
+               </widget>
+            </item>
+            <item row="4" column="0">
+               <widget class="QLabel" name="label_3">
+                  <property name="text">
+                     <string>저장 폴더</string>
+                  </property>
+               </widget>
+            </item>
+            <item row="4" column="1" colspan="3">
+               <widget class="QLineEdit" name="outputDir">
+                  <property name="dragEnabled">
+                     <bool>true</bool>
+                  </property>
+                  <property name="readOnly">
+                     <bool>true</bool>
+                  </property>
+               </widget>
+            </item>
+            <item row="4" column="4" colspan="2">
+               <widget class="QPushButton" name="findOutputDirButton">
+                  <property name="text">
+                     <string>Find</string>
+                  </property>
+               </widget>
+            </item>
+            <item row="5" column="0">
+               <widget class="QLabel" name="label_4">
+                  <property name="text">
+                     <string>수행 범위</string>
+                  </property>
+               </widget>
+            </item>
+            <item row="5" column="1">
+               <widget class="QLineEdit" name="operationRange" />
+            </item>
+            <item row="5" column="2">
+               <widget class="QLabel" name="label_5">
+                  <property name="text">
+                     <string>반복 횟수</string>
+                  </property>
+               </widget>
+            </item>
+            <item row="5" column="3">
+               <widget class="QSpinBox" name="spinBox">
+                  <property name="maximum">
+                     <number>999</number>
+                  </property>
+               </widget>
+            </item>
+            <item row="5" column="4">
+               <widget class="QLabel" name="label_6">
+                  <property name="text">
+                     <string>데이터 수집 간격(s)</string>
+                  </property>
+               </widget>
+            </item>
+            <item row="5" column="5">
+               <widget class="QSpinBox" name="spinBox_2">
+                  <property name="maximum">
+                     <number>999</number>
+                  </property>
+               </widget>
+            </item>
+            <item row="6" column="0" colspan="6">
+               <widget class="QFrame" name="frame">
+                  <property name="autoFillBackground">
+                     <bool>false</bool>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout">
+                     <item>
+                        <widget class="QPushButton" name="startButton">
+                           <property name="text">
+                              <string>Start</string>
+                           </property>
+                        </widget>
+                     </item>
+                     <item>
+                        <widget class="QPushButton" name="stopButton">
+                           <property name="text">
+                              <string>Stop</string>
+                           </property>
+                        </widget>
+                     </item>
+                     <item>
+                        <widget class="QPushButton" name="saveButton">
+                           <property name="text">
+                              <string>Save</string>
+                           </property>
+                        </widget>
+                     </item>
+                  </layout>
+               </widget>
+            </item>
+            <item row="7" column="0" colspan="6">
+               <widget class="QTableView" name="tableView" />
+            </item>
+         </layout>
+      </widget>
+      <widget class="QMenuBar" name="menubar">
+         <property name="geometry">
+            <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>800</width>
+               <height>21</height>
+            </rect>
+         </property>
+      </widget>
+      <widget class="QStatusBar" name="statusbar" />
+   </widget>
+   <resources />
+   <connections />
+</ui>
