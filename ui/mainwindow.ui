@@ -98,7 +98,10 @@
                </widget>
             </item>
             <item row="5" column="3">
-               <widget class="QSpinBox" name="spinBox">
+               <widget class="QSpinBox" name="repeatSpinBox">
+                  <property name="minimum">
+                     <number>1</number>
+                  </property>
                   <property name="maximum">
                      <number>999</number>
                   </property>
@@ -112,7 +115,10 @@
                </widget>
             </item>
             <item row="5" column="5">
-               <widget class="QSpinBox" name="spinBox_2">
+               <widget class="QSpinBox" name="intervalSpinBox">
+                  <property name="minimum">
+                     <number>1</number>
+                  </property>
                   <property name="maximum">
                      <number>999</number>
                   </property>

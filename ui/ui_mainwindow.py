@@ -89,22 +89,24 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addWidget(self.label_5, 5, 2, 1, 1)
 
-        self.spinBox = QSpinBox(self.centralwidget)
-        self.spinBox.setObjectName(u"spinBox")
-        self.spinBox.setMaximum(999)
+        self.repeatSpinBox = QSpinBox(self.centralwidget)
+        self.repeatSpinBox.setObjectName(u"repeatSpinBox")
+        self.repeatSpinBox.setMinimum(1)
+        self.repeatSpinBox.setMaximum(999)
 
-        self.gridLayout.addWidget(self.spinBox, 5, 3, 1, 1)
+        self.gridLayout.addWidget(self.repeatSpinBox, 5, 3, 1, 1)
 
         self.label_6 = QLabel(self.centralwidget)
         self.label_6.setObjectName(u"label_6")
 
         self.gridLayout.addWidget(self.label_6, 5, 4, 1, 1)
 
-        self.spinBox_2 = QSpinBox(self.centralwidget)
-        self.spinBox_2.setObjectName(u"spinBox_2")
-        self.spinBox_2.setMaximum(999)
+        self.intervalSpinBox = QSpinBox(self.centralwidget)
+        self.intervalSpinBox.setObjectName(u"intervalSpinBox")
+        self.intervalSpinBox.setMinimum(1)
+        self.intervalSpinBox.setMaximum(999)
 
-        self.gridLayout.addWidget(self.spinBox_2, 5, 5, 1, 1)
+        self.gridLayout.addWidget(self.intervalSpinBox, 5, 5, 1, 1)
 
         self.frame = QFrame(self.centralwidget)
         self.frame.setObjectName(u"frame")
