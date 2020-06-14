@@ -42,3 +42,17 @@ or
 `:SYST[<channel>]:COMM[:MCH]:ADDR <address>`
 
 Once a device is selected all commands sent without a multichannel address will be handled by the selected device.
+
+# Setup file format
+
+| Num | Fixed | Voltage(V) | Current(A) | time(s) |
+| --- | ----- | ---------- | ---------- | ------- |
+| 1   | V     | 1.525      | 3          | 60      |
+| 2   | V     | 2          | 3          | 60      |
+| 3   | A     | 3          | 1.255      | 3600    |
+
+# Output file format
+
+| Time                  | Voltage(V) | Current(A) |
+| --------------------- | ---------- | ---------- |
+| 2020-06-15 2:25:18 AM | 1.525      | 2.211      |
