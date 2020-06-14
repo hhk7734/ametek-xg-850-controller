@@ -15,8 +15,7 @@ class Xl:
             num = ws.cell(row=i, column=1).value
             try:
                 num = int(num)
-            except (TypeError, ValueError) as e:
-                print(e)
+            except (TypeError, ValueError):
                 break
 
             data[num] = [
