@@ -47,12 +47,14 @@ class Main_window(QMainWindow, Ui_MainWindow):
         self.findOutputDirButton.clicked.connect(self.find_output_dir)
 
         self.startButton.clicked.connect(self.start)
+        self.stopButton.clicked.connect(self.stop)
+        self.saveButton.clicked.connect(self.save)
 
     def update_ports(self):
         self.comboBox.clear()
         self.controller.get_port()
         for key, value in self.controller.ports.items():
-            self.comboBox.addItem(key + " -> " + value)
+            self.comboBox.addItem(key, userData=value)
 
     def find_input_file(self):
         new_input_file = QFileDialog.getOpenFileName(
@@ -76,6 +78,12 @@ class Main_window(QMainWindow, Ui_MainWindow):
 
     def start(self):
         if not self.is_operating:
+            if self.comboBox.currentText():
+                self.controller.set_port = self.comboBox.currentText()
+            else:
+                print("Set up port first!")
+                return
+
             self.is_operating = True
             self.startButton.setFlat(True)
             repeat = self.repeatSpinBox.value()
