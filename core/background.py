@@ -9,7 +9,8 @@ def millis():
 
 class BackgroundThread(QThread):
     update_signal = Signal(list)
-    finish_signal = Signal(str)
+    save_signal = Signal(str)
+    finish_signal = Signal()
 
     _MSLEEP_MS = 30
 
@@ -60,9 +61,6 @@ class BackgroundThread(QThread):
                 if max_count == count:
                     self.repeat -= 1
                     if self.repeat == 0:
-                        self.finish_signal.emit(
-                            datetime.now().strftime("%Y-%d-%m-%H-%M-%S")
-                        )
                         break
                     count = 0
 
@@ -90,6 +88,9 @@ class BackgroundThread(QThread):
             if 1000 - delta > 0:
                 self.msleep(1000 - delta)
             sec += 1
+
+        self.save_signal.emit(datetime.now().strftime("%Y-%d-%m-%H-%M-%S"))
+        self.finish_signal.emit()
 
         self.controller.set_output(False)
         self.controller.disconnect()
