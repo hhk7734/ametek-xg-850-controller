@@ -68,6 +68,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.stopButton.clicked.connect(self.stop)
         self.saveButton.clicked.connect(self.save)
 
+        self.inputTableWidget.setColumnCount(4)
+        self.inputTableWidget.setHorizontalHeaderLabels(
+            ["No.", "전압(V)", "전류(A)", "작동 시간(s)"]
+        )
+        self.inputTableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
+
         self.tableWidget.setColumnCount(3)
         self.tableWidget.setHorizontalHeaderLabels(
             ["시간", "전압(V)", "전류(A)",]
@@ -76,6 +82,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tableWidget.setColumnWidth(0, 300)
 
         self.background_thread.update_signal.connect(self.update_data)
+        self.background_thread.save_signal.connect(self.save)
         self.background_thread.finish_signal.connect(self.finish)
 
     def update_ports(self):
@@ -115,10 +122,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 print("Set up RS-232 port.")
                 return
 
-            if self.inputFilePath is not None:
+            if self.inputFilePath is not None and path.exists(
+                self.inputFilePath
+            ):
                 input_data = self.xl.load_input_data(self.inputFilePath)
             else:
-                print("Set up setup file path.")
+                print("Set up input-file path.")
                 return
 
             if self.operationRange.text():
@@ -159,12 +168,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.startButton.setEnabled(True)
         self.saveButton.setEnabled(True)
 
-    def save(self):
-        pass
-
     @Slot(str)
-    def finish(self, date):
-        print(date)
+    def save(self, date_str):
+        if date_str:
+            pass
+        else:
+            pass
+
+    @Slot(None)
+    def finish(self):
+        self._stop()
 
     @Slot(list)
     def update_data(self, data):
