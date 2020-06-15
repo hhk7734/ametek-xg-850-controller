@@ -45,11 +45,11 @@ Once a device is selected all commands sent without a multichannel address will 
 
 # Setup file format
 
-| Num | Fixed | Voltage(V) | Current(A) | time(s) |
-| --- | ----- | ---------- | ---------- | ------- |
-| 1   | V     | 1.525      | 3          | 60      |
-| 2   | V     | 2          | 3          | 60      |
-| 3   | A     | 3          | 1.255      | 3600    |
+| Num | Voltage(V) | Current(A) | time(s) |
+| --- | ---------- | ---------- | ------- |
+| 1   | 1.525      | 3          | 60      |
+| 2   | 2          | 3          | 60      |
+| 3   | 3          | 1.255      | 3600    |
 
 # Output file format
 
