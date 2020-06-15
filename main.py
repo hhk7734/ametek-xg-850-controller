@@ -1,3 +1,4 @@
+from datetime import datetime
 import logging
 import sys
 from os import path
@@ -163,6 +164,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.is_operating = True
             self.startButton.setEnabled(False)
             self.saveButton.setEnabled(False)
+            self.xl.create_workbook()
 
             repeat = self.repeatSpinBox.value()
             interval = self.intervalSpinBox.value()
@@ -198,18 +200,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     @Slot(str)
     def save(self, date_str):
-        if date_str:
-            pass
+        if not date_str:
+            date_str = datetime.now().strftime("%Y-%d-%m-%H-%M-%S")
+
+        if self.outputDirPath:
+            self.xl.save_workbook(
+                path.join(self.outputDirPath, date_str + ".xlsx")
+            )
         else:
-            pass
+            self.xl.save_workbook(date_str + ".xlsx")
 
     @Slot(None)
     def finish(self):
         self._stop()
+        QTimer.singleShot(2000, self.xl.close_workbook)
 
     @Slot(list)
     def update_data(self, data):
-        log.debug(data)
+        self.xl.update_data(data)
 
 
 if __name__ == "__main__":

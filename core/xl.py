@@ -27,3 +27,18 @@ class Xl:
             i += 1
 
         return data
+
+    def create_workbook(self):
+        self.wb = Workbook()
+        self.ws = self.wb.active
+        self.ws.append(["Time", "Voltage(V)", "Current(A)"])
+
+    def close_workbook(self):
+        self.wb = None
+        self.ws = None
+
+    def update_data(self, data):
+        self.ws.append(data)
+
+    def save_workbook(self, path):
+        self.wb.save(path)
