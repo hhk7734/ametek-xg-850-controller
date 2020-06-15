@@ -155,6 +155,9 @@
                </widget>
             </item>
             <item row="7" column="0" colspan="6">
+               <widget class="QTableWidget" name="inputTableWidget" />
+            </item>
+            <item row="8" column="0" colspan="6">
                <widget class="QTableWidget" name="tableWidget" />
             </item>
          </layout>

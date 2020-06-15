@@ -131,10 +131,15 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addWidget(self.frame, 6, 0, 1, 6)
 
+        self.inputTableWidget = QTableWidget(self.centralwidget)
+        self.inputTableWidget.setObjectName(u"inputTableWidget")
+
+        self.gridLayout.addWidget(self.inputTableWidget, 7, 0, 1, 6)
+
         self.tableWidget = QTableWidget(self.centralwidget)
         self.tableWidget.setObjectName(u"tableWidget")
 
-        self.gridLayout.addWidget(self.tableWidget, 7, 0, 1, 6)
+        self.gridLayout.addWidget(self.tableWidget, 8, 0, 1, 6)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
