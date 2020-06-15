@@ -2,7 +2,12 @@ from datetime import datetime
 import sys
 from os import path
 import pickle
-from PySide2.QtWidgets import QMainWindow, QApplication, QFileDialog
+from PySide2.QtWidgets import (
+    QMainWindow,
+    QApplication,
+    QFileDialog,
+    QAbstractItemView,
+)
 from PySide2.QtCore import QThread, Slot, Signal, QTimer
 import time
 
@@ -19,7 +24,7 @@ def millis():
 
 
 class BackgroundThread(QThread):
-    read_status = Signal(list)
+    update_signal = Signal(list)
 
     def __init__(self, controller):
         super().__init__()
@@ -34,20 +39,66 @@ class BackgroundThread(QThread):
 
     def run(self):
         self.is_running = True
+        sec = 0
         count = 0
+        max_count = len(self.operation_queue)
         while self.is_running:
             current_millis = millis()
+            if sec == self.operation_queue[count][3]:
+                """
+                setup
+                """
+                self.update_data(count)
 
-            if count > 0:
-                if count % self.interval == 0:
-                    pass
+                count += 1
+                if max_count == count:
+                    self.repeat -= 1
+                    if self.repeat == 0:
+                        break
+                    count = 0
+
+                if self.operation_queue[count][0] == "V":
+                    self.controller.set_volatge(self.operation_queue[count][1])
+                    self.controller.set_current_protection(
+                        self.operation_queue[count][2]
+                    )
+                else:
+                    self.controller.set_current(self.operation_queue[count][2])
+                    self.controller.set_voltage_protection(
+                        self.operation_queue[count][1]
+                    )
+
+                sec = 0
+                continue
+
+            if sec % self.interval == 0:
+                """
+                update current status
+                """
+                self.update_data(count)
 
             delta = millis() - current_millis
             if 1000 - delta > 0:
                 self.msleep(1000 - delta)
+            sec += 1
 
     def stop(self):
         self.is_running = False
+
+    def update_data(self, count):
+        if self.operation_queue[count][0] == "V":
+            data = [
+                datetime.now(),
+                self.operation_queue[count][1],
+                self.controller.get_current(),
+            ]
+        else:
+            data = [
+                datetime.now(),
+                self.controller.get_voltage(),
+                self.operation_queue[count][2],
+            ]
+        self.update_signal.emit(data)
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
