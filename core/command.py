@@ -31,12 +31,19 @@ class SCPI:
     def disconnect(self):
         self.uart.close()
 
+    def read_until(self):
+        string = b""
+        while True:
+            data = self.uart.read(1)
+            if data != b"":
+                if data != b"\r":
+                    string += data
+                else:
+                    break
+        return string
+
     def set_address(self, address):
         self.uart.write("*ADR {}\r".format(address).encode())
-
-    def set_init(self):
-        self.uart.write(b":INIT\r")
-        # self.uart.writE(b"SYST:RES\r")
 
     def set_output(self, output):
         if output:
@@ -46,7 +53,7 @@ class SCPI:
 
     def get_voltage(self):
         self.uart.write(b"MEAS:VOLT?\r")
-        return self.uart.read_until("\r").decode()
+        return float(self.read_until())
 
     def set_voltage(self, voltage):
         self.uart.write("SOUR:VOLT {}\r".format(voltage).encode())
@@ -56,7 +63,7 @@ class SCPI:
 
     def get_current(self):
         self.uart.write(b"MEAS:CURR?\r")
-        return self.uart.read_until("\r").decode()
+        return float(self.read_until())
 
     def set_current(self, current):
         self.uart.write("SOUR:CURR {}\r".format(current).encode())
