@@ -9,7 +9,7 @@ from PySide2.QtWidgets import (
     QAbstractItemView,
     QTableWidgetItem,
 )
-from PySide2.QtCore import QTimer, Slot
+from PySide2.QtCore import QTimer, Slot, Qt
 
 from ui.ui_mainwindow import Ui_MainWindow
 from core.command import SCPI
@@ -29,7 +29,7 @@ logging.basicConfig(
 )
 
 log = logging.getLogger(__name__)
-log.setLevel(logging.INFO)
+log.setLevel(logging.DEBUG)
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -95,6 +95,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.background_thread.update_signal.connect(self.update_data)
         self.background_thread.save_signal.connect(self.save)
         self.background_thread.finish_signal.connect(self.finish)
+        self.background_thread.index_signal.connect(self.highlight_input_table)
 
     def update_ports(self):
         self.comboBox.clear()
@@ -189,6 +190,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.inputTableWidget.setItem(i, 2, QTableWidgetItem(str(item[1])))
             self.inputTableWidget.setItem(i, 3, QTableWidgetItem(str(item[2])))
             i += 1
+
+    @Slot(str)
+    def highlight_input_table(self, index):
+        item = self.inputTableWidget.findItems(index, Qt.MatchExactly)[0]
+        self.inputTableWidget.setCurrentCell(item.row(), item.column())
 
     @Slot(str)
     def save(self, date_str):
