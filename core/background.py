@@ -35,6 +35,7 @@ class BackgroundThread(QThread):
         self.is_running = True
         sec = 0
         count = 0
+        total_sec = 1
         max_count = len(self.operation_queue)
 
         self.controller.connect()
@@ -91,11 +92,17 @@ class BackgroundThread(QThread):
                 """
                 self.update_data()
 
+            if total_sec % 86400 == 0:
+                self.save_signal.emit(
+                    datetime.now().strftime("%Y-%d-%m-%H-%M-%S")
+                )
+
             delta = millis() - current_millis
             log.info("BackgroundThread: run: delta: {}".format(delta))
             if 1000 - delta > 0:
                 self.msleep(1000 - delta)
             sec += 1
+            total_sec += 1
 
         self.save_signal.emit(datetime.now().strftime("%Y-%d-%m-%H-%M-%S"))
         self.finish_signal.emit()
