@@ -164,6 +164,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.tableWidget.setColumnWidth(0, 300)
 
+        self.background_thread.update_signal.connect(self.update_data)
+
     def update_ports(self):
         self.comboBox.clear()
         self.controller.get_port()
@@ -244,6 +246,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def save(self):
         pass
+
+    @Slot(list)
+    def update_data(self, data):
+        print(data)
 
 
 if __name__ == "__main__":
