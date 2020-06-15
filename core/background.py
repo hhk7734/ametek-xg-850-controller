@@ -5,7 +5,7 @@ import time
 
 
 log = logging.getLogger(__name__)
-log.setLevel(logging.ERROR)
+log.setLevel(logging.DEBUG)
 
 
 def millis():
@@ -16,6 +16,7 @@ class BackgroundThread(QThread):
     update_signal = Signal(list)
     save_signal = Signal(str)
     finish_signal = Signal()
+    index_signal = Signal(str)
 
     _MSLEEP_MS = 30
 
@@ -44,6 +45,7 @@ class BackgroundThread(QThread):
         First operation configuration
         """
         index = self.operation_queue[count]
+        self.index_signal.emit(str(index))
         self.controller.set_voltage(self.input_data[index][0])
         self.msleep(self._MSLEEP_MS)
         self.controller.set_current(self.input_data[index][1])
@@ -73,6 +75,7 @@ class BackgroundThread(QThread):
                 Next Operation
                 """
                 index = self.operation_queue[count]
+                self.index_signal.emit(str(index))
 
                 self.controller.set_voltage(self.input_data[index][0])
                 self.msleep(self._MSLEEP_MS)
