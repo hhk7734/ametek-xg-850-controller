@@ -19,10 +19,9 @@ class Xl:
                 break
 
             data[num] = [
-                ws.cell(row=i, column=2).value,
+                float(ws.cell(row=i, column=2).value),
                 float(ws.cell(row=i, column=3).value),
-                float(ws.cell(row=i, column=4).value),
-                int(ws.cell(row=i, column=5).value),
+                int(ws.cell(row=i, column=4).value),
             ]
 
             i += 1

@@ -51,11 +51,11 @@ class BackgroundThread(QThread):
             current_millis = millis()
             index = self.operation_queue[count]
 
-            if sec == self.input_data[index][3]:
+            if sec == self.input_data[index][2]:
                 """
                 setup
                 """
-                self.update_data(index)
+                self.update_data()
                 self.msleep(20)
 
                 count += 1
@@ -73,18 +73,9 @@ class BackgroundThread(QThread):
                 self.controller.set_init()
                 self.msleep(50)
 
-                if self.input_data[index][0] == "V":
-                    self.controller.set_volatge(self.input_data[index][1])
-                    self.msleep(20)
-                    self.controller.set_current_protection(
-                        self.input_data[index][2]
-                    )
-                else:
-                    self.controller.set_current(self.input_data[index][2])
-                    self.msleep(20)
-                    self.controller.set_voltage_protection(
-                        self.input_data[index][1]
-                    )
+                self.controller.set_voltage(self.input_data[index][0])
+                self.msleep(20)
+                self.controller.set_current(self.input_data[index][1])
 
                 sec = 0
                 continue
@@ -93,7 +84,7 @@ class BackgroundThread(QThread):
                 """
                 update current status
                 """
-                self.update_data(index)
+                self.update_data()
 
             delta = millis() - current_millis
             if 1000 - delta > 0:
@@ -105,19 +96,12 @@ class BackgroundThread(QThread):
     def stop(self):
         self.is_running = False
 
-    def update_data(self, index):
-        if self.input_data[index][0] == "V":
-            data = [
-                datetime.now(),
-                self.input_data[index][1],
-                self.controller.get_current(),
-            ]
-        else:
-            data = [
-                datetime.now(),
-                self.controller.get_voltage(),
-                self.input_data[index][2],
-            ]
+    def update_data(self):
+        data = [
+            datetime.now(),
+            self.controller.get_voltage(),
+            self.controller.get_current(),
+        ]
         self.update_signal.emit(data)
 
 
