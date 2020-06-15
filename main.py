@@ -55,7 +55,7 @@ class BackgroundThread(QThread):
                 setup
                 """
                 self.update_data(index)
-                self.msleep(50)
+                self.msleep(20)
 
                 count += 1
                 if max_count == count:
@@ -71,11 +71,13 @@ class BackgroundThread(QThread):
 
                 if self.input_data[index][0] == "V":
                     self.controller.set_volatge(self.input_data[index][1])
+                    self.msleep(20)
                     self.controller.set_current_protection(
                         self.input_data[index][2]
                     )
                 else:
                     self.controller.set_current(self.input_data[index][2])
+                    self.msleep(20)
                     self.controller.set_voltage_protection(
                         self.input_data[index][1]
                     )
