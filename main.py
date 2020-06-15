@@ -176,7 +176,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def stop(self):
         self.background_thread.stop()
-        QTimer.singleShot(1000, self._stop)
+        QTimer.singleShot(1000, self.save)
+        QTimer.singleShot(1000, self.finish)
 
     def _stop(self):
         self.is_operating = False
