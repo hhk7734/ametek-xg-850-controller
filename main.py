@@ -39,6 +39,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.is_operating = False
 
+        if path.exists(PORT_NAME):
+            with open(PORT_NAME, "rb") as f:
+                self.port_name = pickle.load(f)
+                self.comboBox.addItem(self.port_name)
+        else:
+            self.port_name = None
+
         if path.exists(INPUT_FILE_PATH):
             with open(INPUT_FILE_PATH, "rb") as f:
                 self.inputFilePath = pickle.load(f)
@@ -100,7 +107,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def start(self):
         if not self.is_operating:
             if self.comboBox.currentText():
-                self.controller.set_port = self.comboBox.currentText()
+                self.port_name = self.comboBox.currentText()
+                self.controller.set_port(self.port_name)
+                with open(PORT_NAME, "wb") as f:
+                    pickle.dump(self.port_name, f)
             else:
                 print("Set up RS-232 port.")
                 return
