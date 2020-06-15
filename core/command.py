@@ -1,7 +1,11 @@
+import os
 import serial
 import time
 
-from serial.tools.list_ports_windows import comports
+if os.name == "nt":
+    from serial.tools.list_ports_windows import comports
+elif os.name == "posix":
+    from serial.tools.list_ports_posix import comports
 
 
 class SCPI:
