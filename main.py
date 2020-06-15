@@ -6,6 +6,7 @@ from PySide2.QtWidgets import (
     QApplication,
     QFileDialog,
     QAbstractItemView,
+    QTableWidgetItem,
 )
 from PySide2.QtCore import QTimer, Slot
 
@@ -126,6 +127,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.inputFilePath
             ):
                 input_data = self.xl.load_input_data(self.inputFilePath)
+                self.update_input_table(input_data)
             else:
                 print("Set up input-file path.")
                 return
@@ -167,6 +169,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.is_operating = False
         self.startButton.setEnabled(True)
         self.saveButton.setEnabled(True)
+
+    def update_input_table(self, input_data):
+        self.inputTableWidget.setRowCount(len(input_data))
+        i = 0
+        for key, item in input_data.items():
+            print(item)
+            self.inputTableWidget.setItem(i, 0, QTableWidgetItem(str(key)))
+            self.inputTableWidget.setItem(i, 1, QTableWidgetItem(str(item[0])))
+            self.inputTableWidget.setItem(i, 2, QTableWidgetItem(str(item[1])))
+            self.inputTableWidget.setItem(i, 3, QTableWidgetItem(str(item[2])))
+            i += 1
 
     @Slot(str)
     def save(self, date_str):
