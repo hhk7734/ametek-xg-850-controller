@@ -42,13 +42,20 @@ class BackgroundThread(QThread):
         sec = 0
         count = 0
         max_count = len(self.operation_queue)
+
+        self.controller.connect()
+        self.controller.set_address(1)
+
         while self.is_running:
             current_millis = millis()
-            if sec == self.operation_queue[count][3]:
+            index = self.operation_queue[count]
+
+            if sec == self.input_data[index][3]:
                 """
                 setup
                 """
-                self.update_data(count)
+                self.update_data(index)
+                self.msleep(50)
 
                 count += 1
                 if max_count == count:
@@ -57,15 +64,20 @@ class BackgroundThread(QThread):
                         break
                     count = 0
 
-                if self.operation_queue[count][0] == "V":
-                    self.controller.set_volatge(self.operation_queue[count][1])
+                index = self.operation_queue[count]
+
+                self.controller.set_init()
+                self.msleep(50)
+
+                if self.input_data[index][0] == "V":
+                    self.controller.set_volatge(self.input_data[index][1])
                     self.controller.set_current_protection(
-                        self.operation_queue[count][2]
+                        self.input_data[index][2]
                     )
                 else:
-                    self.controller.set_current(self.operation_queue[count][2])
+                    self.controller.set_current(self.input_data[index][2])
                     self.controller.set_voltage_protection(
-                        self.operation_queue[count][1]
+                        self.input_data[index][1]
                     )
 
                 sec = 0
@@ -75,28 +87,30 @@ class BackgroundThread(QThread):
                 """
                 update current status
                 """
-                self.update_data(count)
+                self.update_data(index)
 
             delta = millis() - current_millis
             if 1000 - delta > 0:
                 self.msleep(1000 - delta)
             sec += 1
 
+        self.controller.disconnect()
+
     def stop(self):
         self.is_running = False
 
-    def update_data(self, count):
-        if self.operation_queue[count][0] == "V":
+    def update_data(self, index):
+        if self.input_data[index][0] == "V":
             data = [
                 datetime.now(),
-                self.operation_queue[count][1],
+                self.input_data[index][1],
                 self.controller.get_current(),
             ]
         else:
             data = [
                 datetime.now(),
                 self.controller.get_voltage(),
-                self.operation_queue[count][2],
+                self.input_data[index][2],
             ]
         self.update_signal.emit(data)
 
