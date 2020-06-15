@@ -1,7 +1,10 @@
+from datetime import datetime
 import sys
 from os import path
 import pickle
 from PySide2.QtWidgets import QMainWindow, QApplication, QFileDialog
+from PySide2.QtCore import QThread, Slot, Signal, QTimer
+import time
 
 from ui.ui_mainwindow import Ui_MainWindow
 from core.command import SCPI
@@ -11,7 +14,44 @@ INPUT_FILE_PATH = path.join(path.dirname(__file__), "pkl/inputFilePath.pkl")
 OUTPUT_DIR_PATH = path.join(path.dirname(__file__), "pkl/outputDirPath.pkl")
 
 
-class Main_window(QMainWindow, Ui_MainWindow):
+def millis():
+    return int(round(time.time() * 1000))
+
+
+class BackgroundThread(QThread):
+    read_status = Signal(list)
+
+    def __init__(self, controller):
+        super().__init__()
+        self.controller = controller
+        self.is_running = False
+
+    def set_data(self, setup_data, operation_queue, repeat, interval):
+        self.setup_data = setup_data
+        self.operation_queue = operation_queue
+        self.repeat = repeat
+        self.interval = interval
+
+    def run(self):
+        self.is_running = True
+        count = 0
+        while self.is_running:
+            current_millis = millis()
+
+            if count > 0:
+                if count % self.interval == 0:
+                    pass
+
+
+            delta = millis() - current_millis
+            if 1000 - delta > 0:
+                self.msleep(1000 - delta)
+
+    def stop(self):
+        self.is_running = False
+
+
+class MainWindow(QMainWindow, Ui_MainWindow):
     """
     Ui 클래스 상속
     """
@@ -25,6 +65,7 @@ class Main_window(QMainWindow, Ui_MainWindow):
 
         self.controller = SCPI()
         self.xl = Xl()
+        self.background_thread = BackgroundThread(self.controller)
 
         self.is_operating = False
 
@@ -81,29 +122,52 @@ class Main_window(QMainWindow, Ui_MainWindow):
             if self.comboBox.currentText():
                 self.controller.set_port = self.comboBox.currentText()
             else:
-                print("Set up port first!")
+                print("Set up RS-232 port.")
+                return
+
+            if self.inputFilePath is not None:
+                setup_data = self.xl.load_setup_data(self.inputFilePath)
+            else:
+                print("Set up setup file path.")
+                return
+
+            if self.operationRange.text():
+                operation_range = self.operationRange.text().strip()
+                operation_range = operation_range.split(",")
+                operation_queue = []
+                for operation in operation_range:
+                    if operation.find("-") != -1:
+                        index = operation.find("-")
+                        start_num = int(operation[:index])
+                        end_num = int(operation[index + 1 :])
+                        for i in range(start_num, end_num + 1):
+                            operation_queue.append(i)
+                    else:
+                        operation_queue.append(int(operation))
+            else:
+                print("Set up operation range.")
                 return
 
             self.is_operating = True
-            self.startButton.setFlat(True)
+            self.startButton.setEnabled(False)
+            self.saveButton.setEnabled(False)
+
             repeat = self.repeatSpinBox.value()
             interval = self.intervalSpinBox.value()
-            setup_data = self.xl.load_setup_data(self.inputFilePath)
-            operation_range = self.operationRange.text().strip()
-            operation_range = operation_range.split(",")
-            operation_queue = []
-            for operation in operation_range:
-                if operation.find("-") != -1:
-                    index = operation.find("-")
-                    start_num = int(operation[:index])
-                    end_num = int(operation[index + 1 :])
-                    for i in range(start_num, end_num + 1):
-                        operation_queue.append(i)
-                else:
-                    operation_queue.append(int(operation))
+
+            self.background_thread.set_data(
+                setup_data, operation_queue, repeat, interval
+            )
+            self.background_thread.start()
 
     def stop(self):
-        pass
+        self.background_thread.stop()
+        QTimer.singleShot(1000, self._stop)
+
+    def _stop(self):
+        self.is_operating = False
+        self.startButton.setEnabled(True)
+        self.saveButton.setEnabled(True)
 
     def save(self):
         pass
@@ -111,6 +175,6 @@ class Main_window(QMainWindow, Ui_MainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    main_window = Main_window()
+    main_window = MainWindow()
     main_window.show()
     sys.exit(app.exec_())
