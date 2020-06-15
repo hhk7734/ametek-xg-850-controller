@@ -141,6 +141,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.stopButton.clicked.connect(self.stop)
         self.saveButton.clicked.connect(self.save)
 
+        self.tableWidget.setColumnCount(3)
+        self.tableWidget.setHorizontalHeaderLabels(
+            ["시간", "전압(V)", "전류(A)",]
+        )
+        self.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.tableWidget.setColumnWidth(0, 300)
+
     def update_ports(self):
         self.comboBox.clear()
         self.controller.get_port()
