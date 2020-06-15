@@ -26,8 +26,8 @@ class BackgroundThread(QThread):
         self.controller = controller
         self.is_running = False
 
-    def set_data(self, setup_data, operation_queue, repeat, interval):
-        self.setup_data = setup_data
+    def set_data(self, input_data, operation_queue, repeat, interval):
+        self.input_data = input_data
         self.operation_queue = operation_queue
         self.repeat = repeat
         self.interval = interval
@@ -41,7 +41,6 @@ class BackgroundThread(QThread):
             if count > 0:
                 if count % self.interval == 0:
                     pass
-
 
             delta = millis() - current_millis
             if 1000 - delta > 0:
@@ -126,7 +125,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 return
 
             if self.inputFilePath is not None:
-                setup_data = self.xl.load_setup_data(self.inputFilePath)
+                input_data = self.xl.load_input_data(self.inputFilePath)
             else:
                 print("Set up setup file path.")
                 return
@@ -156,7 +155,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             interval = self.intervalSpinBox.value()
 
             self.background_thread.set_data(
-                setup_data, operation_queue, repeat, interval
+                input_data, operation_queue, repeat, interval
             )
             self.background_thread.start()
 

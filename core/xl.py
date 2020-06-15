@@ -5,7 +5,7 @@ class Xl:
     def __init__(self):
         pass
 
-    def load_setup_data(self, file_path):
+    def load_input_data(self, file_path):
         wb = load_workbook(file_path)
         ws = wb[wb.sheetnames[0]]
 
