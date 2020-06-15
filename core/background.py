@@ -105,9 +105,13 @@ class BackgroundThread(QThread):
         self.is_running = False
 
     def update_data(self):
-        data = [
-            datetime.now(),
-            self.controller.get_voltage(),
-            self.controller.get_current(),
-        ]
-        self.update_signal.emit(data)
+        try:
+            data = [
+                datetime.now(),
+                self.controller.get_voltage(),
+                self.controller.get_current(),
+            ]
+            self.update_signal.emit(data)
+        except Exception as e:
+            log.error(e)
+            self.stop()
