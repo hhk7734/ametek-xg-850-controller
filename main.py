@@ -1,3 +1,4 @@
+import logging
 import sys
 from os import path
 import pickle
@@ -20,6 +21,15 @@ BASE_DIR = path.dirname(__file__)
 PORT_NAME = path.join(BASE_DIR, "pkl/portName.pkl")
 INPUT_FILE_PATH = path.join(BASE_DIR, "pkl/inputFilePath.pkl")
 OUTPUT_DIR_PATH = path.join(BASE_DIR, "pkl/outputDirPath.pkl")
+
+
+logging.basicConfig(
+    format="[%(levelname)-8s] %(filename)-10s %(lineno) 4d 행 : %(message)s",
+    level=logging.DEBUG,
+)
+
+log = logging.getLogger(__name__)
+log.setLevel(logging.INFO)
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -120,7 +130,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 with open(PORT_NAME, "wb") as f:
                     pickle.dump(self.port_name, f)
             else:
-                print("Set up RS-232 port.")
+                log.error("Set up RS-232 port.")
                 return
 
             if self.inputFilePath is not None and path.exists(
@@ -129,7 +139,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 input_data = self.xl.load_input_data(self.inputFilePath)
                 self.update_input_table(input_data)
             else:
-                print("Set up input-file path.")
+                log.error("Set up input-file path.")
                 return
 
             if self.operationRange.text():
@@ -146,7 +156,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     else:
                         operation_queue.append(int(operation))
             else:
-                print("Set up operation range.")
+                log.error("Set up operation range.")
                 return
 
             self.is_operating = True
@@ -174,7 +184,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.inputTableWidget.setRowCount(len(input_data))
         i = 0
         for key, item in input_data.items():
-            print(item)
             self.inputTableWidget.setItem(i, 0, QTableWidgetItem(str(key)))
             self.inputTableWidget.setItem(i, 1, QTableWidgetItem(str(item[0])))
             self.inputTableWidget.setItem(i, 2, QTableWidgetItem(str(item[1])))
@@ -194,7 +203,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     @Slot(list)
     def update_data(self, data):
-        print(data)
+        log.debug(data)
 
 
 if __name__ == "__main__":

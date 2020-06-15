@@ -1,6 +1,11 @@
 from datetime import datetime
+import logging
 from PySide2.QtCore import QThread, Signal
 import time
+
+
+log = logging.getLogger(__name__)
+log.setLevel(logging.ERROR)
 
 
 def millis():
@@ -84,7 +89,7 @@ class BackgroundThread(QThread):
                 self.update_data()
 
             delta = millis() - current_millis
-            print("BackgroundThread: run: delta: {}".format(delta))
+            log.info("BackgroundThread: run: delta: {}".format(delta))
             if 1000 - delta > 0:
                 self.msleep(1000 - delta)
             sec += 1
@@ -94,6 +99,7 @@ class BackgroundThread(QThread):
 
         self.controller.set_output(False)
         self.controller.disconnect()
+        log.debug("finish")
 
     def stop(self):
         self.is_running = False
