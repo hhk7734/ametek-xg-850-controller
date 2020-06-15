@@ -30,14 +30,32 @@ class SCPI:
     def set_address(self, address):
         self.uart.write("*ADR {}\r".format(address).encode())
 
+    def set_init(self):
+        self.uart.write(b":INIT\r")
+        # self.uart.writE(b"SYST:RES\r")
+
+    def set_output(self, output):
+        if output:
+            self.uart.write(b":OUTP ON\r")
+        else:
+            self.uart.write(b":OUTP OFF\r")
+
+    def get_voltage(self):
+        self.uart.write(b"MEAS:VOLT?\r")
+        return self.uart.read_until("\r").decode()
+
     def set_voltage(self, voltage):
-        pass
+        self.uart.write("SOUR:VOLT {}\r".format(voltage).encode())
 
     def set_voltage_protection(self, voltage):
-        pass
+        self.uart.write("SOUR:VOLT:PROT {}\r".format(voltage).encode())
+
+    def get_current(self):
+        self.uart.write(b"MEAS:CURR?\r")
+        return self.uart.read_until("\r").decode()
 
     def set_current(self, current):
-        pass
+        self.uart.write("SOUR:CURR {}\r".format(current).encode())
 
     def set_current_protection(self, current):
-        pass
+        self.uart.write("SOUR:CURR:PROT {}\r".format(current).encode())
