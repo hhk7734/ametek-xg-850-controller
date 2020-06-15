@@ -11,6 +11,8 @@ class BackgroundThread(QThread):
     update_signal = Signal(list)
     finish_signal = Signal(str)
 
+    _MSLEEP_MS = 30
+
     def __init__(self, controller):
         super().__init__()
         self.controller = controller
@@ -30,6 +32,18 @@ class BackgroundThread(QThread):
 
         self.controller.connect()
         self.controller.set_address(1)
+        self.msleep(self._MSLEEP_MS)
+
+        """
+        First operation configuration
+        """
+        index = self.operation_queue[count]
+        self.controller.set_voltage(self.input_data[index][0])
+        self.msleep(self._MSLEEP_MS)
+        self.controller.set_current(self.input_data[index][1])
+        self.msleep(self._MSLEEP_MS)
+        self.controller.set_output(True)
+        self.msleep(self._MSLEEP_MS)
 
         while self.is_running:
             current_millis = millis()
@@ -37,10 +51,10 @@ class BackgroundThread(QThread):
 
             if sec == self.input_data[index][2]:
                 """
-                setup
+                When an operation is finished, it read current device setup.
                 """
                 self.update_data()
-                self.msleep(20)
+                self.msleep(self._MSLEEP_MS)
 
                 count += 1
                 if max_count == count:
@@ -52,29 +66,32 @@ class BackgroundThread(QThread):
                         break
                     count = 0
 
+                """
+                Next Operation
+                """
                 index = self.operation_queue[count]
 
-                self.controller.set_init()
-                self.msleep(50)
-
                 self.controller.set_voltage(self.input_data[index][0])
-                self.msleep(20)
+                self.msleep(self._MSLEEP_MS)
                 self.controller.set_current(self.input_data[index][1])
+                self.msleep(self._MSLEEP_MS)
 
                 sec = 0
                 continue
 
             if sec % self.interval == 0:
                 """
-                update current status
+                Update current status
                 """
                 self.update_data()
 
             delta = millis() - current_millis
+            print("BackgroundThread: run: delta: {}".format(delta))
             if 1000 - delta > 0:
                 self.msleep(1000 - delta)
             sec += 1
 
+        self.controller.set_output(False)
         self.controller.disconnect()
 
     def stop(self):
