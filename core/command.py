@@ -34,14 +34,15 @@ class SCPI:
     def read_until(self):
         time.sleep(0.03)
         string = b""
-        while True:
+        start_time = time.time()
+        while time.time() - start_time < 3:
             data = self.uart.read(1)
             if data != b"":
                 if data != b"\r":
                     string += data
                 else:
-                    break
-        return string
+                    return string
+        return None
 
     def set_address(self, address):
         self.uart.write("*ADR {}\r".format(address).encode())
