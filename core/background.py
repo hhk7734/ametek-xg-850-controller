@@ -61,7 +61,7 @@ class BackgroundThread(QThread):
                     self.repeat -= 1
                     if self.repeat == 0:
                         self.finish_signal.emit(
-                            datetime.now.strftime("%Y-%d-%m-%H-%M-%S")
+                            datetime.now().strftime("%Y-%d-%m-%H-%M-%S")
                         )
                         break
                     count = 0
