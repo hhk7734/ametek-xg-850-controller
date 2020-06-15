@@ -25,6 +25,7 @@ def millis():
 
 class BackgroundThread(QThread):
     update_signal = Signal(list)
+    finish_signal = Signal(str)
 
     def __init__(self, controller):
         super().__init__()
@@ -61,6 +62,9 @@ class BackgroundThread(QThread):
                 if max_count == count:
                     self.repeat -= 1
                     if self.repeat == 0:
+                        self.finish_signal.emit(
+                            datetime.now.strftime("%Y-%d-%m-%H-%M-%S")
+                        )
                         break
                     count = 0
 
@@ -165,6 +169,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.tableWidget.setColumnWidth(0, 300)
 
         self.background_thread.update_signal.connect(self.update_data)
+        self.background_thread.finish_signal.connect(self.finish)
 
     def update_ports(self):
         self.comboBox.clear()
@@ -246,6 +251,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def save(self):
         pass
+
+    @Slot(str)
+    def finish(self, date):
+        print(date)
 
     @Slot(list)
     def update_data(self, data):
