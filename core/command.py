@@ -32,6 +32,7 @@ class SCPI:
         self.uart.close()
 
     def read_until(self):
+        time.sleep(0.03)
         string = b""
         while True:
             data = self.uart.read(1)
