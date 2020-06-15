@@ -103,7 +103,7 @@ class Ui_MainWindow(object):
 
         self.intervalSpinBox = QSpinBox(self.centralwidget)
         self.intervalSpinBox.setObjectName(u"intervalSpinBox")
-        self.intervalSpinBox.setMinimum(1)
+        self.intervalSpinBox.setMinimum(2)
         self.intervalSpinBox.setMaximum(999)
 
         self.gridLayout.addWidget(self.intervalSpinBox, 5, 5, 1, 1)
@@ -131,10 +131,10 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addWidget(self.frame, 6, 0, 1, 6)
 
-        self.tableView = QTableView(self.centralwidget)
-        self.tableView.setObjectName(u"tableView")
+        self.tableWidget = QTableWidget(self.centralwidget)
+        self.tableWidget.setObjectName(u"tableWidget")
 
-        self.gridLayout.addWidget(self.tableView, 7, 0, 1, 6)
+        self.gridLayout.addWidget(self.tableWidget, 7, 0, 1, 6)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
