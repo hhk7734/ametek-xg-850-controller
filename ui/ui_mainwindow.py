@@ -128,6 +128,11 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout.addWidget(self.saveButton)
 
+        self.clearButton = QPushButton(self.frame)
+        self.clearButton.setObjectName(u"clearButton")
+
+        self.horizontalLayout.addWidget(self.clearButton)
+
 
         self.gridLayout.addWidget(self.frame, 6, 0, 1, 6)
 
@@ -199,6 +204,7 @@ class Ui_MainWindow(object):
         self.startButton.setText(QCoreApplication.translate("MainWindow", u"Start", None))
         self.stopButton.setText(QCoreApplication.translate("MainWindow", u"Stop", None))
         self.saveButton.setText(QCoreApplication.translate("MainWindow", u"Save", None))
+        self.clearButton.setText(QCoreApplication.translate("MainWindow", u"Clear", None))
         ___qtablewidgetitem = self.inputTableWidget.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"No.", None));
         ___qtablewidgetitem1 = self.inputTableWidget.horizontalHeaderItem(1)
