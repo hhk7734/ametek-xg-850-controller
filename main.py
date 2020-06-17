@@ -59,10 +59,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             self.port_name = None
 
+        self.input_data = None
         if path.exists(INPUT_FILE_PATH):
             with open(INPUT_FILE_PATH, "rb") as f:
                 self.inputFilePath = pickle.load(f)
-                self.inputFile.setText(self.inputFilePath)
+                if path.exists(self.inputFilePath):
+                    self.inputFile.setText(self.inputFilePath)
+                    self.update_input_table()
+                else:
+                    self.inputFilePath = None
         else:
             self.inputFilePath = None
 
@@ -110,6 +115,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.inputFile.setText(self.inputFilePath)
             with open(INPUT_FILE_PATH, "wb") as f:
                 pickle.dump(self.inputFilePath, f)
+            self.update_input_table()
 
     def find_output_dir(self):
         new_output_dir = QFileDialog.getExistingDirectory(
@@ -133,12 +139,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 log.error("Set up RS-232 port.")
                 return
 
-            if self.inputFilePath is not None and path.exists(
-                self.inputFilePath
-            ):
-                input_data = self.xl.load_input_data(self.inputFilePath)
-                self.update_input_table(input_data)
-            else:
+            if self.input_data is None:
                 log.error("Set up input-file path.")
                 return
 
@@ -168,7 +169,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             interval = self.intervalSpinBox.value()
 
             self.background_thread.set_data(
-                input_data, operation_queue, repeat, interval
+                self.input_data, operation_queue, repeat, interval
             )
             self.background_thread.start()
 
@@ -183,10 +184,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.startButton.setEnabled(True)
         self.saveButton.setEnabled(True)
 
-    def update_input_table(self, input_data):
-        self.inputTableWidget.setRowCount(len(input_data))
+    def update_input_table(self):
+        self.input_data = self.xl.load_input_data(self.inputFilePath)
+        self.inputTableWidget.setRowCount(len(self.input_data))
         i = 0
-        for key, item in input_data.items():
+        for key, item in self.input_data.items():
             self.inputTableWidget.setItem(i, 0, QTableWidgetItem(str(key)))
             self.inputTableWidget.setItem(i, 1, QTableWidgetItem(str(item[0])))
             self.inputTableWidget.setItem(i, 2, QTableWidgetItem(str(item[1])))
