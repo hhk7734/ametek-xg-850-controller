@@ -9,6 +9,7 @@ from PySide2.QtWidgets import (
     QFileDialog,
     QAbstractItemView,
     QTableWidgetItem,
+    QHeaderView,
 )
 from PySide2.QtCore import QTimer, Slot, Qt
 
@@ -80,18 +81,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.stopButton.clicked.connect(self.stop)
         self.saveButton.clicked.connect(self.save)
 
-        self.inputTableWidget.setColumnCount(4)
-        self.inputTableWidget.setHorizontalHeaderLabels(
-            ["No.", "전압(V)", "전류(A)", "작동 시간(s)"]
+        self.inputTableWidget.horizontalHeader().setSectionResizeMode(
+            QHeaderView.Stretch
         )
-        self.inputTableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
 
-        self.tableWidget.setColumnCount(3)
-        self.tableWidget.setHorizontalHeaderLabels(
-            ["시간", "전압(V)", "전류(A)",]
+        self.tableWidget.horizontalHeader().setSectionResizeMode(
+            QHeaderView.Stretch
         )
-        self.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.tableWidget.setColumnWidth(0, 300)
 
         self.background_thread.update_signal.connect(self.update_data)
         self.background_thread.save_signal.connect(self.save)

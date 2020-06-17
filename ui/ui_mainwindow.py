@@ -20,7 +20,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(800, 600)
+        MainWindow.resize(800, 900)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.gridLayout = QGridLayout(self.centralwidget)
@@ -132,12 +132,42 @@ class Ui_MainWindow(object):
         self.gridLayout.addWidget(self.frame, 6, 0, 1, 6)
 
         self.inputTableWidget = QTableWidget(self.centralwidget)
+        if (self.inputTableWidget.columnCount() < 4):
+            self.inputTableWidget.setColumnCount(4)
+        __qtablewidgetitem = QTableWidgetItem()
+        self.inputTableWidget.setHorizontalHeaderItem(0, __qtablewidgetitem)
+        __qtablewidgetitem1 = QTableWidgetItem()
+        self.inputTableWidget.setHorizontalHeaderItem(1, __qtablewidgetitem1)
+        __qtablewidgetitem2 = QTableWidgetItem()
+        self.inputTableWidget.setHorizontalHeaderItem(2, __qtablewidgetitem2)
+        __qtablewidgetitem3 = QTableWidgetItem()
+        self.inputTableWidget.setHorizontalHeaderItem(3, __qtablewidgetitem3)
+        if (self.inputTableWidget.rowCount() < 1):
+            self.inputTableWidget.setRowCount(1)
         self.inputTableWidget.setObjectName(u"inputTableWidget")
+        self.inputTableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.inputTableWidget.setAlternatingRowColors(True)
+        self.inputTableWidget.setRowCount(1)
+        self.inputTableWidget.setColumnCount(4)
 
         self.gridLayout.addWidget(self.inputTableWidget, 7, 0, 1, 6)
 
         self.tableWidget = QTableWidget(self.centralwidget)
+        if (self.tableWidget.columnCount() < 3):
+            self.tableWidget.setColumnCount(3)
+        __qtablewidgetitem4 = QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(0, __qtablewidgetitem4)
+        __qtablewidgetitem5 = QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(1, __qtablewidgetitem5)
+        __qtablewidgetitem6 = QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(2, __qtablewidgetitem6)
+        if (self.tableWidget.rowCount() < 1):
+            self.tableWidget.setRowCount(1)
         self.tableWidget.setObjectName(u"tableWidget")
+        self.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.tableWidget.setAlternatingRowColors(True)
+        self.tableWidget.setRowCount(1)
+        self.tableWidget.setColumnCount(3)
 
         self.gridLayout.addWidget(self.tableWidget, 8, 0, 1, 6)
 
@@ -169,5 +199,19 @@ class Ui_MainWindow(object):
         self.startButton.setText(QCoreApplication.translate("MainWindow", u"Start", None))
         self.stopButton.setText(QCoreApplication.translate("MainWindow", u"Stop", None))
         self.saveButton.setText(QCoreApplication.translate("MainWindow", u"Save", None))
+        ___qtablewidgetitem = self.inputTableWidget.horizontalHeaderItem(0)
+        ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"No.", None));
+        ___qtablewidgetitem1 = self.inputTableWidget.horizontalHeaderItem(1)
+        ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"\uc804\uc555(V)", None));
+        ___qtablewidgetitem2 = self.inputTableWidget.horizontalHeaderItem(2)
+        ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"\uc804\ub958(A)", None));
+        ___qtablewidgetitem3 = self.inputTableWidget.horizontalHeaderItem(3)
+        ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"\uc791\ub3d9 \uc2dc\uac04(s)", None));
+        ___qtablewidgetitem4 = self.tableWidget.horizontalHeaderItem(0)
+        ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"\uce21\uc815 \uc2dc\uac04", None));
+        ___qtablewidgetitem5 = self.tableWidget.horizontalHeaderItem(1)
+        ___qtablewidgetitem5.setText(QCoreApplication.translate("MainWindow", u"\uc804\uc555(V)", None));
+        ___qtablewidgetitem6 = self.tableWidget.horizontalHeaderItem(2)
+        ___qtablewidgetitem6.setText(QCoreApplication.translate("MainWindow", u"\uc804\ub958(A)", None));
     # retranslateUi
 
