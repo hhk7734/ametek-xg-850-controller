@@ -18,16 +18,6 @@ from core.command import SCPI
 from core.background import BackgroundThread
 from core.xl import Xl
 
-BASE_DIR = path.dirname(__file__)
-PKL_PATH = path.join(BASE_DIR, "pkl")
-if not path.exists(PKL_PATH):
-    mkdir(PKL_PATH)
-
-PORT_NAME = path.join(BASE_DIR, "pkl/portName.pkl")
-INPUT_FILE_PATH = path.join(BASE_DIR, "pkl/inputFilePath.pkl")
-OUTPUT_DIR_PATH = path.join(BASE_DIR, "pkl/outputDirPath.pkl")
-
-
 logging.basicConfig(
     format="[%(levelname)-8s] %(filename)-10s %(lineno) 4d 행 : %(message)s",
     level=logging.DEBUG,
@@ -35,6 +25,18 @@ logging.basicConfig(
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
+
+
+BASE_DIR = path.dirname(__file__)
+PKL_PATH = path.join(BASE_DIR, "XG-850-savedata")
+if not path.exists(PKL_PATH):
+    mkdir(PKL_PATH)
+
+log.debug(PKL_PATH)
+
+PORT_NAME = path.join(PKL_PATH, "portName.pkl")
+INPUT_FILE_PATH = path.join(PKL_PATH, "inputFilePath.pkl")
+OUTPUT_DIR_PATH = path.join(PKL_PATH, "outputDirPath.pkl")
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
