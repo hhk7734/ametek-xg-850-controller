@@ -120,6 +120,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             with open(OUTPUT_DIR_PATH, "wb") as f:
                 pickle.dump(self.outputDirPath, f)
 
+    @Slot(None)
     def start(self):
         if not self.is_operating:
             if self.comboBox.currentText():
@@ -170,6 +171,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             )
             self.background_thread.start()
 
+    @Slot(None)
     def stop(self):
         self.background_thread.stop()
         QTimer.singleShot(1000, self.save)
@@ -215,10 +217,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @Slot(list)
     def update_data(self, data):
         self.tableWidget.insertRow(1)
-        index = self.tableWidget.rowCount()
-        self.tableWidget.setItem(index, 1, QTableWidgetItem(str(data[0])))
-        self.tableWidget.setItem(index, 2, QTableWidgetItem(str(data[1])))
-        self.tableWidget.setItem(index, 3, QTableWidgetItem(str(data[2])))
+        index = self.tableWidget.rowCount() - 2
+        self.tableWidget.setItem(index, 0, QTableWidgetItem(str(data[0])))
+        self.tableWidget.setItem(index, 1, QTableWidgetItem(str(data[1])))
+        self.tableWidget.setItem(index, 2, QTableWidgetItem(str(data[2])))
         self.xl.update_data(data)
 
 
