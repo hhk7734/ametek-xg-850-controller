@@ -214,6 +214,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     @Slot(list)
     def update_data(self, data):
+        self.tableWidget.insertRow(1)
+        index = self.tableWidget.rowCount()
+        self.tableWidget.setItem(index, 1, QTableWidgetItem(str(data[0])))
+        self.tableWidget.setItem(index, 2, QTableWidgetItem(str(data[1])))
+        self.tableWidget.setItem(index, 3, QTableWidgetItem(str(data[2])))
         self.xl.update_data(data)
 
 
