@@ -50,10 +50,38 @@
                </widget>
             </item>
             <item row="3" column="4" colspan="2">
-               <widget class="QPushButton" name="findInputFileButton">
-                  <property name="text">
-                     <string>Find</string>
+               <widget class="QFrame" name="frame_2">
+                  <property name="autoFillBackground">
+                     <bool>false</bool>
                   </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_2">
+                     <property name="leftMargin">
+                        <number>0</number>
+                     </property>
+                     <property name="topMargin">
+                        <number>0</number>
+                     </property>
+                     <property name="rightMargin">
+                        <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                        <number>0</number>
+                     </property>
+                     <item>
+                        <widget class="QPushButton" name="findInputFileButton">
+                           <property name="text">
+                              <string>Find</string>
+                           </property>
+                        </widget>
+                     </item>
+                     <item>
+                        <widget class="QPushButton" name="updateInputDataButton">
+                           <property name="text">
+                              <string>Update</string>
+                           </property>
+                        </widget>
+                     </item>
+                  </layout>
                </widget>
             </item>
             <item row="4" column="0">
@@ -130,6 +158,18 @@
                      <bool>false</bool>
                   </property>
                   <layout class="QHBoxLayout" name="horizontalLayout">
+                     <property name="leftMargin">
+                        <number>0</number>
+                     </property>
+                     <property name="topMargin">
+                        <number>5</number>
+                     </property>
+                     <property name="rightMargin">
+                        <number>0</number>
+                     </property>
+                     <property name="bottomMargin">
+                        <number>5</number>
+                     </property>
                      <item>
                         <widget class="QPushButton" name="startButton">
                            <property name="text">

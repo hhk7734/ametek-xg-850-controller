@@ -52,10 +52,24 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addWidget(self.inputFile, 3, 1, 1, 3)
 
-        self.findInputFileButton = QPushButton(self.centralwidget)
+        self.frame_2 = QFrame(self.centralwidget)
+        self.frame_2.setObjectName(u"frame_2")
+        self.frame_2.setAutoFillBackground(False)
+        self.horizontalLayout_2 = QHBoxLayout(self.frame_2)
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.findInputFileButton = QPushButton(self.frame_2)
         self.findInputFileButton.setObjectName(u"findInputFileButton")
 
-        self.gridLayout.addWidget(self.findInputFileButton, 3, 4, 1, 2)
+        self.horizontalLayout_2.addWidget(self.findInputFileButton)
+
+        self.updateInputDataButton = QPushButton(self.frame_2)
+        self.updateInputDataButton.setObjectName(u"updateInputDataButton")
+
+        self.horizontalLayout_2.addWidget(self.updateInputDataButton)
+
+
+        self.gridLayout.addWidget(self.frame_2, 3, 4, 1, 2)
 
         self.label_3 = QLabel(self.centralwidget)
         self.label_3.setObjectName(u"label_3")
@@ -113,6 +127,7 @@ class Ui_MainWindow(object):
         self.frame.setAutoFillBackground(False)
         self.horizontalLayout = QHBoxLayout(self.frame)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.horizontalLayout.setContentsMargins(0, 5, 0, 5)
         self.startButton = QPushButton(self.frame)
         self.startButton.setObjectName(u"startButton")
 
@@ -196,6 +211,7 @@ class Ui_MainWindow(object):
         self.updatePortButton.setText(QCoreApplication.translate("MainWindow", u"Update", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"\uc124\uc815 \ud30c\uc77c", None))
         self.findInputFileButton.setText(QCoreApplication.translate("MainWindow", u"Find", None))
+        self.updateInputDataButton.setText(QCoreApplication.translate("MainWindow", u"Update", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"\uc800\uc7a5 \ud3f4\ub354", None))
         self.findOutputDirButton.setText(QCoreApplication.translate("MainWindow", u"Find", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"\uc218\ud589 \ubc94\uc704", None))
