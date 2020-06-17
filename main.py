@@ -80,6 +80,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.updatePortButton.clicked.connect(self.update_ports)
         self.findInputFileButton.clicked.connect(self.find_input_file)
+        self.updateInputDataButton.clicked.connect(self.update_input_table)
         self.findOutputDirButton.clicked.connect(self.find_output_dir)
 
         self.startButton.clicked.connect(self.start)
@@ -184,6 +185,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.startButton.setEnabled(True)
         self.saveButton.setEnabled(True)
 
+    @Slot(None)
     def update_input_table(self):
         self.input_data = self.xl.load_input_data(self.inputFilePath)
         self.inputTableWidget.setRowCount(len(self.input_data))
