@@ -1,7 +1,7 @@
 from datetime import datetime
 import logging
 import sys
-from os import path
+from os import path, mkdir
 import pickle
 from PySide2.QtWidgets import (
     QMainWindow,
@@ -19,6 +19,9 @@ from core.background import BackgroundThread
 from core.xl import Xl
 
 BASE_DIR = path.dirname(__file__)
+PKL_PATH = path.join(BASE_DIR, "pkl")
+if not path.exists(PKL_PATH):
+    mkdir(PKL_PATH)
 
 PORT_NAME = path.join(BASE_DIR, "pkl/portName.pkl")
 INPUT_FILE_PATH = path.join(BASE_DIR, "pkl/inputFilePath.pkl")
