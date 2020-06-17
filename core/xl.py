@@ -33,10 +33,6 @@ class Xl:
         self.ws = self.wb.active
         self.ws.append(["Time", "Voltage(V)", "Current(A)"])
 
-    def close_workbook(self):
-        self.wb = None
-        self.ws = None
-
     def update_data(self, data):
         self.ws.append(data)
 
