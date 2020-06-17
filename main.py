@@ -80,6 +80,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.startButton.clicked.connect(self.start)
         self.stopButton.clicked.connect(self.stop)
         self.saveButton.clicked.connect(self.save)
+        self.clearButton.clicked.connect(self.clear)
 
         self.inputTableWidget.horizontalHeader().setSectionResizeMode(
             QHeaderView.Stretch
@@ -208,6 +209,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             )
         else:
             self.xl.save_workbook(date_str + ".xlsx")
+
+    @Slot(None)
+    def clear(self):
+        self.tableWidget.clearContents()
+        self.inputTableWidget.setRowCount(1)
 
     @Slot(None)
     def finish(self):
