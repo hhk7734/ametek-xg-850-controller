@@ -1,9 +1,36 @@
 # AMETEK XG 850(6-110)
 
 OS: Window 10
+
 CON: RS-232(J4 port)
 
 Remote operation using RS-232.
+
+![XG-850-controller](img/xg-850-controller.png)
+
+# Dependecies
+
+```shell
+python3 -m pip install --user -U pip setuptools
+```
+
+```shell
+python3 -m pip install --user -U openpyxl pyserial pyside2 pyinstaller
+```
+
+# Apply .ui changes
+
+```shell
+pyside2-uic ui/mainwindow.ui -o ui/ui_mainwindow.py
+```
+
+# Make .exe
+
+```shell
+python3 exe.py
+```
+
+After the above command, check `dist` directory.
 
 # Connector
 
