@@ -117,7 +117,7 @@ class Ui_MainWindow(object):
 
         self.intervalSpinBox = QSpinBox(self.centralwidget)
         self.intervalSpinBox.setObjectName(u"intervalSpinBox")
-        self.intervalSpinBox.setMinimum(2)
+        self.intervalSpinBox.setMinimum(1)
         self.intervalSpinBox.setMaximum(999)
 
         self.gridLayout.addWidget(self.intervalSpinBox, 5, 5, 1, 1)
