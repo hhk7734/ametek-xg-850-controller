@@ -10,7 +10,7 @@ elif os.name == "posix":
 
 class SCPI:
     def __init__(self):
-        self.uart = serial.Serial(baudrate=9600, timeout=0)
+        self.uart = serial.Serial(baudrate=57600, timeout=0)
         self.ports = {}
 
     def get_port(self):
@@ -35,7 +35,7 @@ class SCPI:
         time.sleep(0.03)
         string = b""
         start_time = time.time()
-        while time.time() - start_time < 3:
+        while time.time() - start_time < 5:
             data = self.uart.read(1)
             if data != b"":
                 if data != b"\r":

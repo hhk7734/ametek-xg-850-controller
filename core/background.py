@@ -18,7 +18,7 @@ class BackgroundThread(QThread):
     finish_signal = Signal()
     index_signal = Signal(str)
 
-    _MSLEEP_MS = 30
+    _MSLEEP_MS = 60
 
     def __init__(self, controller):
         super().__init__()
