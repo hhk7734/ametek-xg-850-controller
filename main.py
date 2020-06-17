@@ -96,6 +96,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.inputTableWidget.horizontalHeader().setSectionResizeMode(
             QHeaderView.Stretch
         )
+        self.inputTableWidget.verticalHeader().setVisible(False)
 
         self.tableWidget.horizontalHeader().setSectionResizeMode(
             QHeaderView.Stretch
@@ -168,7 +169,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             self.is_operating = True
             self.startButton.setEnabled(False)
-            self.saveButton.setEnabled(False)
             self.xl.create_workbook()
 
             repeat = self.repeatSpinBox.value()
@@ -188,7 +188,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def _stop(self):
         self.is_operating = False
         self.startButton.setEnabled(True)
-        self.saveButton.setEnabled(True)
 
     @Slot(None)
     def update_input_table(self):
@@ -222,7 +221,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @Slot(None)
     def clear(self):
         self.tableWidget.clearContents()
-        self.inputTableWidget.setRowCount(1)
+        self.tableWidget.setRowCount(1)
 
     @Slot(None)
     def finish(self):
@@ -231,11 +230,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     @Slot(list)
     def update_data(self, data):
-        self.tableWidget.insertRow(1)
-        index = self.tableWidget.rowCount() - 2
-        self.tableWidget.setItem(index, 0, QTableWidgetItem(str(data[0])))
-        self.tableWidget.setItem(index, 1, QTableWidgetItem(str(data[1])))
-        self.tableWidget.setItem(index, 2, QTableWidgetItem(str(data[2])))
+        self.tableWidget.insertRow(0)
+        self.tableWidget.setItem(0, 0, QTableWidgetItem(str(data[0])))
+        self.tableWidget.setItem(0, 1, QTableWidgetItem(str(data[1])))
+        self.tableWidget.setItem(0, 2, QTableWidgetItem(str(data[2])))
         self.xl.update_data(data)
 
 
