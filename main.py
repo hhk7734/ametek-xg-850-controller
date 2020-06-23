@@ -226,7 +226,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @Slot(None)
     def finish(self):
         self._stop()
-        QTimer.singleShot(2000, self.xl.close_workbook)
 
     @Slot(list)
     def update_data(self, data):
